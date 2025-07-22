@@ -2,7 +2,7 @@ import Image from "next/image";
 export default function CartItem() {
   return (
     <tr className="font-medium table-row">
-      <td>
+      <td className="flex items-center">
         <Image
           className="img-product"
           src="/produto.jpg"
@@ -10,6 +10,10 @@ export default function CartItem() {
           width={160}
           height={100}
         ></Image>
+        <div className="ml-4">
+          <h3>produto</h3>
+          <h3 className="text-zinc-300">Categoria</h3>
+        </div>
       </td>
       <td>R$ 345</td>
       <td>

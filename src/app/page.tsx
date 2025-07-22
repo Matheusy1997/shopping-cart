@@ -1,9 +1,13 @@
 import Image from "next/image";
+import CartTable from "../../components/CartTable";
 
-export default function Home() {
+export default function CartPage() {
   return (
-    <main className="font-sans">
-        <h1>Seu carrinho</h1>
+    <main className="h-screen w-screen font-sans flex flex-col items-center">
+        <h1 className="my-14 text-5xl font-medium">Seu carrinho</h1>
+        <div className="w-full">
+          <CartTable></CartTable>
+        </div>
     </main>
   );
 }

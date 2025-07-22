@@ -1,7 +1,9 @@
+import CartItem from "./CartItem"
+
 export default function CartTable(){
     return (
         <div className="w-3/5 h-22">
-            <button className="border bg-zinc-200 ml-22 my-3 px-3">
+            <button className="border bg-zinc-200 ml-22 my-3 px-3 cursor-pointer hover:bg-zinc-300 transition">
                 add to cart
             </button>
             <table className="w-full ml-22">
@@ -14,7 +16,7 @@ export default function CartTable(){
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    <CartItem></CartItem>
                 </tbody>
             </table>
         </div>

@@ -1,0 +1,17 @@
+.table-row {
+    border-bottom: solid 1px rgb(190, 190, 190);
+}
+
+.img-product {
+    width: 120px;
+    height: 150px;
+    margin: 22px 0px;
+    border-radius: 12px;
+}
+
+.quantity{
+    width: 70px;
+    display: flex;
+    justify-content: space-around;    
+    align-items: center;
+}

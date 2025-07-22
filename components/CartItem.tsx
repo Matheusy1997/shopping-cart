@@ -14,7 +14,13 @@ export default function CartItem({id, price, arrayNumber, totalProduct, onDelete
 
   function handleQuantity(value:number){
     setCurrentQuantity(value)
-    const total = price * currentQuantity
+    let total;
+    if(value < currentQuantity){
+      total = -price
+    } else {
+      total = price
+    }
+    
     totalProduct([...arrayNumber, total])
   }
 

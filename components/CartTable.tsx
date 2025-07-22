@@ -6,23 +6,29 @@ interface PropsCartTable{
     arrayNumber:number[]
 }
 
+interface ListCartItem{
+    id: number
+    price:number
+}
+
 function randomValue():number{
   return Math.ceil(Math.random() * 2000)
 }
 
 export default function CartTable({totalProduct, arrayNumber}: PropsCartTable){
 
-    const [currentCartItem, setCurrentCartItem] = useState<React.ReactNode[]>([])
+    const [currentCartItem, setCurrentCartItem] = useState<ListCartItem[]>([])
 
     function handleCartItem(){
         const price = randomValue()
-        const newCartItem = <CartItem arrayNumber={arrayNumber} id={currentCartItem.length + 1} price={price} totalProduct={totalProduct} onDelete={deleteItem}/>
+        const id = randomValue()
+        const newCartItem = {id, price}
         totalProduct([...arrayNumber, price])
         setCurrentCartItem([...currentCartItem, newCartItem])
     }
 
     function deleteItem(idItem:number) {
-        setCurrentCartItem(prevItem => prevItem.filter(item => item !== idItem))
+        setCurrentCartItem(prevItem => prevItem.filter(item => item.id !== idItem))
     }
 
     return (
@@ -40,7 +46,9 @@ export default function CartTable({totalProduct, arrayNumber}: PropsCartTable){
                     </tr>
                 </thead>
                 <tbody>
-                    {currentCartItem}
+                    {currentCartItem.map(item => (
+                        <CartItem key={item.id} id={item.id} price={item.price} arrayNumber={arrayNumber} totalProduct={totalProduct} onDelete={deleteItem}/>
+                    ))}
                 </tbody>
             </table>
         </div>

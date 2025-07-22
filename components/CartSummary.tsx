@@ -1,4 +1,7 @@
-export default function CartSummary() {
+interface PropsCartSummary{
+    total: number
+}
+export default function CartSummary({total}: PropsCartSummary) {
   return (
     <div>
       <div className="w-[230px] bg-zinc-200 border border-zinc-300">
@@ -8,7 +11,7 @@ export default function CartSummary() {
         <div className="text-zinc-500">
           <div className="flex justify-between px-4 py-1 text-sm">
             <p>Subtotal</p>
-            <p>R${2450}</p>
+            <p>R${total == 0 ? 0 : total}</p>
           </div>
           <div className="flex justify-between px-4 py-1 text-sm">
             <p>Frete</p>
@@ -23,7 +26,7 @@ export default function CartSummary() {
           </div>
           <div className="w-full flex justify-between p-4 text-xl border border-zinc-300">
             <p>Total</p>
-            <p>R${2450}</p>
+            <p>R${total == 0 ? 0 : total}</p>
           </div>
         </div>
       </div>

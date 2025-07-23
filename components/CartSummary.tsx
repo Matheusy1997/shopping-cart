@@ -10,8 +10,8 @@ export default function CartSummary({total}: PropsCartSummary) {
         </h2>
         <div className="text-zinc-500">
           <div className="flex justify-between px-4 py-1 text-sm">
-            <p>Subtotal</p>
-            <p>R${total == 0 ? 0 : total}</p>
+            <span>Subtotal</span>
+            <span>R$ {total.toFixed(2)}</span>
           </div>
           <div className="flex justify-between px-4 py-1 text-sm">
             <p>Frete</p>
@@ -26,7 +26,7 @@ export default function CartSummary({total}: PropsCartSummary) {
           </div>
           <div className="w-full flex justify-between p-4 text-xl border border-zinc-300">
             <p>Total</p>
-            <p>R${total == 0 ? 0 : total}</p>
+            <p>R$ {total.toFixed(2)}</p>
           </div>
         </div>
       </div>

@@ -1,71 +1,55 @@
 import React, { useState } from "react";
 import CartItem from "./CartItem";
 
-interface PropsCartTable {
-  totalProduct: (value: number[]) => void;
-  arrayNumber: number[];
-}
-
-interface ListCartItem {
+export interface Product {
   id: number;
+  name: string;
+  category?: string;
   price: number;
 }
 
-function randomValue(): number {
-  return Math.ceil(Math.random() * 2000);
+interface CartTableProps {
+  products: Product[];
+  onQuantityChange: (id: number, delta: number) => void;
+  onDelete: (id: number, totalValue: number) => void;
 }
 
 export default function CartTable({
-  totalProduct,
-  arrayNumber,
-}: PropsCartTable) {
-  const [currentCartItem, setCurrentCartItem] = useState<ListCartItem[]>([]);
-
-  function handleCartItem() {
-    const price = randomValue();
-    const id = randomValue();
-    const newCartItem = { id, price };
-    totalProduct([...arrayNumber, price]);
-    setCurrentCartItem([...currentCartItem, newCartItem]);
-  }
-
-  function deleteItem(idItem: number, subPrice: number) {
-    setCurrentCartItem((prevItem) =>
-      prevItem.filter((item) => item.id !== idItem)
-    );
-    totalProduct([...arrayNumber, -subPrice]);
-  }
-
+  products,
+  onQuantityChange,
+  onDelete,
+}: CartTableProps) {
   return (
-    <div className="w-3/5 h-22">
-      <button
-        onClick={handleCartItem}
-        className="border bg-zinc-200 ml-22 my-3 px-3 cursor-pointer hover:bg-zinc-300 transition"
-      >
-        add to cart
-      </button>
-      <table className="w-full ml-22">
-        <thead className="tableHead">
+    <table className="w-full border rounded">
+      <thead className="tableHead">
+        <tr>
+          <th className="w-2/5">PRODUTO</th>
+          <th className="w-1/5">PREÇO</th>
+          <th className="w-1/5">QUANTIDADE</th>
+          <th className="w-1/5">TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        {products.length === 0 ? (
           <tr>
-            <th className="w-2/5">PRODUTO</th>
-            <th className="w-1/5">PREÇO</th>
-            <th className="w-1/5">QUANTIDADE</th>
-            <th className="w-1/5">TOTAL</th>
+            <td colSpan={4} className="text-center py-4">
+              Carrinho vazio
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {currentCartItem.map((item) => (
+        ) : (
+          products.map((p) => (
             <CartItem
-              key={item.id}
-              id={item.id}
-              price={item.price}
-              arrayNumber={arrayNumber}
-              totalProduct={totalProduct}
-              onDelete={deleteItem}
+              key={p.id}
+              id={p.id}
+              name={p.name}
+              category={p.category}
+              price={p.price}
+              onQuantityChange={onQuantityChange}
+              onDelete={onDelete}
             />
-          ))}
-        </tbody>
-      </table>
-    </div>
+          ))
+        )}
+      </tbody>
+    </table>
   );
 }

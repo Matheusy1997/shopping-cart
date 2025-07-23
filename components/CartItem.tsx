@@ -3,29 +3,40 @@ import { useState } from "react";
 
 interface PropsCartItem {
   id: number;
+  name: string;
+  category?: string;
   price: number;
-  arrayNumber:number[]
-  totalProduct: (value:number[]) => void;
-  onDelete: (id:number, price:number) => void
+  onQuantityChange: (id: number, delta: number) => void;
+  onDelete: (id: number, totalValue: number) => void;
 }
 
-export default function CartItem({id, price, arrayNumber, totalProduct, onDelete}: PropsCartItem) {
-  const [currentQuantity, setCurrentQuantity] = useState<number>(1);
+export default function CartItem({
+  id,
+  name,
+  category,
+  price,
+  onQuantityChange,
+  onDelete,
+}: PropsCartItem) {
+  const [quantity, setQuantity] = useState<number>(1);
 
-  function handleQuantity(value:number){
-    setCurrentQuantity(value)
-    let total;
-    if(value === 1) {
-      return
-    } else {
-      if(value < currentQuantity){
-        total = -price
-      } else {
-        total = price
-      }
-    }
-    
-    totalProduct([...arrayNumber, total])
+  function incremente() {
+    setQuantity(prev => {
+      onQuantityChange(id, price)
+      return prev + 1
+    })
+  }
+
+  function decremente() {
+    setQuantity(prev => {
+      if(prev <= 1) return prev
+      onQuantityChange(id, -price)
+      return prev - 1
+    })
+  }
+
+  function handleDelete() {
+    onDelete(id, price * quantity)
   }
 
   return (
@@ -39,27 +50,37 @@ export default function CartItem({id, price, arrayNumber, totalProduct, onDelete
           height={100}
         ></Image>
         <div className="ml-4">
-          <h3>produto</h3>
-          <h3 className="text-zinc-300">Categoria</h3>
+          <h3>name</h3>
+          {category && <p className="text-sm text-gray-500">{category}</p>}
         </div>
       </td>
-      <td>R$ {price}</td>
+      <td>R$ {price.toFixed(2)}</td>
       <td>
         <div className="quantity">
-          <button onClick={() => handleQuantity(currentQuantity == 1 ? 1 : currentQuantity - 1)} className="w-1/3 bg-zinc-300 hover:bg-zinc-500 rounded-l-lg border border-amber-50 transition">
+          <button
+            onClick={decremente}
+            className="w-1/3 bg-zinc-300 hover:bg-zinc-500 rounded-l-lg border border-amber-50 transition"
+          >
             -
           </button>
-          <p className="bg-zinc-300 w-1/3 text-center">{currentQuantity}</p>
-          <button onClick={() => handleQuantity(currentQuantity + 1)} className="w-1/3 bg-zinc-300 hover:bg-zinc-500 rounded-r-lg border border-amber-50 transition">
+          <span className="w-1/3 text-center">{quantity}</span>
+          <button
+            onClick={incremente}
+            className="w-1/3 bg-zinc-300 hover:bg-zinc-500 rounded-r-lg border border-amber-50 transition"
+          >
             +
           </button>
         </div>
       </td>
+      {/* Total + Remover */}
       <td>
-        <div className="flex w-full">
-          <p>R$ {price * currentQuantity}</p>
-          <button onClick={() => onDelete(id, price)} className="ml-8 bg-zinc-300 w-6 cursor-pointer hover:bg-zinc-500 rounded-4xl pb-0.5">
-            x
+        <div className="flex items-center space-x-4">
+          <span>R$ {(price * quantity).toFixed(2)}</span>
+          <button
+            onClick={handleDelete}
+            className="w-6 h-6 bg-red-300 hover:bg-red-400 rounded-full text-white text-sm flex items-center justify-center"
+          >
+            ×
           </button>
         </div>
       </td>

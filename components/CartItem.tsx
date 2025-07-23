@@ -6,7 +6,7 @@ interface PropsCartItem {
   price: number;
   arrayNumber:number[]
   totalProduct: (value:number[]) => void;
-  onDelete: (id:number) => void
+  onDelete: (id:number, price:number) => void
 }
 
 export default function CartItem({id, price, arrayNumber, totalProduct, onDelete}: PropsCartItem) {
@@ -15,10 +15,14 @@ export default function CartItem({id, price, arrayNumber, totalProduct, onDelete
   function handleQuantity(value:number){
     setCurrentQuantity(value)
     let total;
-    if(value < currentQuantity){
-      total = -price
+    if(value === 1) {
+      return
     } else {
-      total = price
+      if(value < currentQuantity){
+        total = -price
+      } else {
+        total = price
+      }
     }
     
     totalProduct([...arrayNumber, total])
@@ -54,7 +58,7 @@ export default function CartItem({id, price, arrayNumber, totalProduct, onDelete
       <td>
         <div className="flex w-full">
           <p>R$ {price * currentQuantity}</p>
-          <button onClick={() => onDelete(id)} className="ml-8 bg-zinc-300 w-6 cursor-pointer hover:bg-zinc-500 rounded-4xl pb-0.5">
+          <button onClick={() => onDelete(id, price)} className="ml-8 bg-zinc-300 w-6 cursor-pointer hover:bg-zinc-500 rounded-4xl pb-0.5">
             x
           </button>
         </div>

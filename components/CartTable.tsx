@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import CartItem from "./CartItem";
 
 export interface Product {

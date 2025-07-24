@@ -50,7 +50,7 @@ export default function CartItem({
           height={100}
         ></Image>
         <div className="ml-4">
-          <h3>name</h3>
+          <h3>{name}</h3>
           {category && <p className="text-sm text-gray-500">{category}</p>}
         </div>
       </td>
